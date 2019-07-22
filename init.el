@@ -46,7 +46,7 @@
 ;; Load configs for specific features and modes
 ;;----------------------------------------------------------------------------
 
-
+(require 'init-org)
 
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
