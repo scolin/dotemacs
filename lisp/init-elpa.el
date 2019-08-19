@@ -15,6 +15,9 @@
 
 ;;; Standard package repositories
 
+;; TODO: remove this bugfix when emacs 26.3 lands
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
