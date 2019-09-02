@@ -46,6 +46,8 @@
 ;; Load configs for specific features and modes
 ;;----------------------------------------------------------------------------
 
+(require 'init-spacetab)
+(require 'init-paragraph)
 (require 'init-org)
 
 ;;----------------------------------------------------------------------------

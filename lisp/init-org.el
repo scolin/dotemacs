@@ -3,6 +3,9 @@
 
 ;;; Code:
 
+(setq calendar-week-start-day 1)
+
+(require-package 'org)
 
 ;; recursively find .org files in provided directory
 ;; modified from an Emacs Lisp Intro example
