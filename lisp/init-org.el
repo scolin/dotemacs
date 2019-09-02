@@ -4,12 +4,40 @@
 ;;; Code:
 
 
+;; recursively find .org files in provided directory
+;; modified from an Emacs Lisp Intro example
+(defun sa-find-org-file-recursively (&optional directory filext)
+  "Return .org and .org_archive files recursively from DIRECTORY.
+If FILEXT is provided, return files with extension FILEXT instead."
+  (interactive "DDirectory: ")
+  (let* (org-file-list
+	 (case-fold-search t)	      ; filesystems are case sensitive
+	 (file-name-regex "^[^.#].*") ; exclude dot, autosave, and backup files
+	 (filext (or filext "org$\\\|org_archive"))
+	 (fileregex (format "%s\\.\\(%s$\\)" file-name-regex filext))
+	 (cur-dir-list (directory-files directory t file-name-regex)))
+    ;; loop over directory listing
+    (dolist (file-or-dir cur-dir-list org-file-list) ; returns org-file-list
+      (cond
+       ((file-regular-p file-or-dir) ; regular files
+	(if (string-match fileregex file-or-dir) ; org files
+	    (add-to-list 'org-file-list file-or-dir)))
+       ((file-directory-p file-or-dir)
+	(dolist (org-file (sa-find-org-file-recursively file-or-dir filext)
+			  org-file-list) ; add files found to result
+	  (add-to-list 'org-file-list org-file)))))))
+
+;; You can use it like this:
+
+;; (setq org-agenda-text-search-extra-files
+;;       (append (sa-find-org-file-recursively "~/org/dir1/" "txt")
+;;               (sa-find-org-file-recursively "~/org/dir2/" "tex")))
+
+
 (setq org-directory "~/org")
 (load-library "find-lisp")
-;; TODO: do not take temporary org files (from editing) into account
 (setq org-agenda-files
-   (find-lisp-find-files "~/org/" "\\.org$"))
-;; (add-to-list 'org-agenda-files (expand-file-name "~/org"))
+      (sa-find-org-file-recursively "~/org/" "org"))
 ; Do not add agenda files "by hand"
 (add-hook 'org-mode-hook
           (lambda ()
@@ -20,37 +48,9 @@
 ;; TODO: do not take temporary org files (from editing) into account
 (add-hook 'org-agenda-mode-hook (lambda () 
                                   (setq org-agenda-files 
-                                        (find-lisp-find-files "~/org/" "\\.org$"))
+                                        (sa-find-org-file-recursively "~/org/" "org"))
                                   ))
 
-;; ;; recursively find .org files in provided directory
-;; ;; modified from an Emacs Lisp Intro example
-;; (defun sa-find-org-file-recursively (&optional directory filext)
-;;   "Return .org and .org_archive files recursively from DIRECTORY.
-;; If FILEXT is provided, return files with extension FILEXT instead."
-;;   (interactive "DDirectory: ")
-;;   (let* (org-file-list
-;; 	 (case-fold-search t)	      ; filesystems are case sensitive
-;; 	 (file-name-regex "^[^.#].*") ; exclude dot, autosave, and backup files
-;; 	 (filext (or filext "org$\\\|org_archive"))
-;; 	 (fileregex (format "%s\\.\\(%s$\\)" file-name-regex filext))
-;; 	 (cur-dir-list (directory-files directory t file-name-regex)))
-;;     ;; loop over directory listing
-;;     (dolist (file-or-dir cur-dir-list org-file-list) ; returns org-file-list
-;;       (cond
-;;        ((file-regular-p file-or-dir) ; regular files
-;; 	(if (string-match fileregex file-or-dir) ; org files
-;; 	    (add-to-list 'org-file-list file-or-dir)))
-;;        ((file-directory-p file-or-dir)
-;; 	(dolist (org-file (sa-find-org-file-recursively file-or-dir filext)
-;; 			  org-file-list) ; add files found to result
-;; 	  (add-to-list 'org-file-list org-file)))))))
-
-;; ;; You can use it like this:
-
-;; (setq org-agenda-text-search-extra-files
-;;       (append (sa-find-org-file-recursively "~/org/dir1/" "txt")
-;;               (sa-find-org-file-recursively "~/org/dir2/" "tex")))
 
 ;; (setq org-agenda-files (list "~/org"))
 
