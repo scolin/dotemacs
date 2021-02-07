@@ -46,6 +46,7 @@
 ;; Load configs for specific features and modes
 ;;----------------------------------------------------------------------------
 
+(require 'init-wsl2)
 (require 'init-spacetab)
 (require 'init-paragraph)
 (require 'init-org)
