@@ -230,7 +230,7 @@ If FILEXT is provided, return files with extension FILEXT instead."
        (percentage-column (+ nfields 1))
        )
     (org-table-goto-column percentage-column)
-    (org-table-insert-column)
+;;    (org-table-insert-column)
     (insert "%")
     (while (org-table-goto-line (+ (org-table-current-line) 1))
       (let* ((time-string (replace-regexp-in-string (regexp-quote "*") " " (org-table-get-field time-column)  nil 'literal))
