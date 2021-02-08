@@ -186,7 +186,7 @@ If FILEXT is provided, return files with extension FILEXT instead."
                                (org-clocktable-indent-string (nth 0 entry))
                                (nth 1 entry)
                                (clocktable-by-tag/shift-cell (nth 0 entry))
-                               (/ (nth 3 entry) 60.0)))))))
+                               (/ (nth 4 entry) 60.0)))))))
        (org-agenda-files))
       
       (save-excursion
@@ -251,7 +251,7 @@ If FILEXT is provided, return files with extension FILEXT instead."
   (let ((tags (plist-get params :tags))(total-sum 0))
     (mapcar (lambda (tag)
               (setq params (plist-put params :tags tag))
-              (setq total-sum (+ total-sum (clocktable-by-tag/insert-tag params))))
+              (setq total-sum (+ total-sum (clocktable-by-tag/insert-tag (plist-put (plist-put params :match tag) :tags tag)))))
             tags)
     (clocktable-by-tag/insert-percentage total-sum 3)
     ))
@@ -262,7 +262,7 @@ If FILEXT is provided, return files with extension FILEXT instead."
   (let ((tags (plist-get params :tags))(total-sum 0))
     (mapcar (lambda (tag)
               (setq params (plist-put params :tags tag))
-              (setq total-sum (+ total-sum (clocktable-by-tag/insert-only-tag params))))
+              (setq total-sum (+ total-sum (clocktable-by-tag/insert-only-tag (plist-put (plist-put params :match tag) :tags tag)))))
             tags)
     (clocktable-by-tag/insert-percentage total-sum 2)
     ))
