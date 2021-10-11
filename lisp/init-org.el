@@ -60,7 +60,7 @@ If FILEXT is provided, return files with extension FILEXT instead."
 ;;(setq org-startup-folded 'showall)
 (setq org-startup-folded 'showeverything)
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "IN-PROGRESS(p!)" "FOLLOW-UP(f@!)" "WAITING(w@/!)" "|" "DONE(d!)" "CANCELLED(c@)")
+      '((sequence "TODO(t)" "IN-PROGRESS(p!)" "FOLLOW-UP(f@!)" "WAITING(w@/!)" "|" "DONE(d!)" "NOTAVAILABLE(n!)" "CANCELLED(c@)")
         (sequence "TASK(k)" "|" "DONE(d!)" "CANCELLED(c@)")
         ))
 (setq org-todo-keyword-faces
@@ -70,6 +70,7 @@ If FILEXT is provided, return files with extension FILEXT instead."
       ("WAITING" :background "yellow" :foreground "black" :weight bold :box (:line-width 2 :style released-button))
       ("TASK" :background "deep sky blue" :foreground "black" :weight bold :box (:line-width 2 :style released-button))
       ("DONE" :background "forest green" :weight bold :box (:line-width 2 :style released-button))
+      ("NOTAVAILABLE" :background "DarkOrchid1" :weight bold :box (:line-width 2 :style released-button))
       ("CANCELLED" :background "lime green" :foreground "black" :weight bold :box (:line-width 2 :style released-button))))
 
 (setq org-enforce-todo-dependencies t)
